@@ -2,136 +2,270 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planner Diário</title>
 
 <style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --panel-2: #020617;
+  --border: #374151;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --green: #16a34a;
+  --green-dark: #052e16;
+  --btn: #111827;
+}
+
+* { box-sizing: border-box; }
+
 body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #e2e8f0;
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   display: flex;
   justify-content: center;
 }
 
 .wrap {
-  width: 420px;
-  padding: 20px;
+  width: min(760px, 100%);
+  padding: 28px;
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-button {
-  cursor: pointer;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .nav-btn {
-  background: transparent;
-  border: 1px solid #334155;
-  padding: 5px 10px;
-  border-radius: 8px;
-  color: #94a3b8;
+  background: var(--btn);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #d1d5db;
+  cursor: pointer;
+}
+
+.date {
+  text-align: center;
+  flex: 1;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
 }
 
 .prog-bar {
   height: 6px;
-  background: #1e293b;
-  border-radius: 10px;
-  margin-top: 10px;
+  background: var(--panel);
+  border-radius: 999px;
+  margin: 10px 0 18px;
   overflow: hidden;
 }
 
 .prog-fill {
   height: 100%;
   width: 0%;
-  background: #22c55e;
-  transition: 0.4s;
+  background: var(--green);
+  transition: width .2s ease;
+}
+
+#progress-text {
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .card {
-  background: #1e293b;
-  padding: 12px;
-  border-radius: 12px;
-  margin-top: 10px;
-  border: 1px solid #334155;
+  background: var(--panel);
+  padding: 18px;
+  border-radius: 16px;
+  margin-top: 14px;
+  border: 1px solid var(--border);
 }
 
 .card.done {
-  background: linear-gradient(135deg, #052e16, #14532d);
-  border-color: #22c55e;
+  background: var(--green-dark);
+  border-color: var(--green);
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
 }
 
 .check-btn {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
   border-radius: 50%;
-  border: 2px solid #64748b;
-  display: inline-flex;
+  border: 2px solid #6b7280;
+  display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 2px;
 }
 
 .check-btn.done {
-  background: #22c55e;
-  border-color: #22c55e;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.content {
+  flex: 1;
+}
+
+.tag {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.area {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.35;
 }
 
 .edit {
   display: none;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .edit input {
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: white;
+  outline: none;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.save-btn {
+  background: var(--green);
+  color: #06240f;
+}
+
+.cancel-btn {
+  background: #374151;
+  color: white;
+}
+
+.delete-btn {
+  background: #7f1d1d;
+  color: white;
 }
 
 .add-btn {
-  margin-top: 10px;
+  margin-top: 20px;
   width: 100%;
-  padding: 8px;
-  background: #22c55e;
+  padding: 13px;
+  background: var(--green);
   border: none;
-  border-radius: 10px;
-  color: black;
+  border-radius: 14px;
+  color: #061b0c;
+  font-weight: 800;
+  cursor: pointer;
 }
 
+.empty {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px dashed var(--border);
+  color: var(--muted);
+  text-align: center;
+  background: rgba(255,255,255,0.02);
+}
 </style>
 </head>
-
 <body>
 
 <div class="wrap">
+  <div class="nav">
+    <button class="nav-btn" onclick="changeDay(-1)">← anterior</button>
+    <div class="date">
+      <div id="date"></div>
+      <div class="sub" id="date-sub"></div>
+    </div>
+    <button class="nav-btn" onclick="changeDay(1)">próximo →</button>
+  </div>
 
-<div class="nav">
-  <button class="nav-btn" onclick="changeDay(-1)">←</button>
-  <div id="date"></div>
-  <button class="nav-btn" onclick="changeDay(1)">→</button>
-</div>
+  <div id="progress-text"></div>
+  <div class="prog-bar"><div class="prog-fill" id="progress"></div></div>
 
-<div id="progress-text"></div>
-<div class="prog-bar"><div class="prog-fill" id="progress"></div></div>
+  <div id="tasks"></div>
 
-<div id="tasks"></div>
-
-<button class="add-btn" onclick="addTask()">+ Nova meta</button>
-
+  <button class="add-btn" onclick="addTask()">+ Nova meta</button>
 </div>
 
 <script>
 let offset = 0;
 
-function getDate() {
+const dias = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+const meses = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function localDateKey(date) {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function getDateObj() {
   const d = new Date();
   d.setDate(d.getDate() + offset);
-  return d.toISOString().split("T")[0];
+  return d;
+}
+
+function formatDate(d) {
+  return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]}`;
 }
 
 function load() {
-  return JSON.parse(localStorage.getItem("planner") || "{}");
+  try {
+    return JSON.parse(localStorage.getItem("planner") || "{}");
+  } catch {
+    return {};
+  }
 }
 
 function save(data) {
@@ -145,13 +279,15 @@ function changeDay(n) {
 
 function addTask() {
   const data = load();
-  const d = getDate();
+  const key = localDateKey(getDateObj());
 
-  if (!data[d]) data[d] = [];
+  if (!data[key]) data[key] = [];
 
-  data[d].push({
+  data[key].push({
     id: Date.now(),
+    tag: "META",
     title: "Nova meta",
+    area: "Foco / Área",
     done: false
   });
 
@@ -161,70 +297,125 @@ function addTask() {
 
 function toggle(id) {
   const data = load();
-  const d = getDate();
+  const key = localDateKey(getDateObj());
+  const list = data[key] || [];
 
-  data[d] = data[d].map(t => {
-    if (t.id === id) t.done = !t.done;
-    return t;
+  data[key] = list.map(task => task.id === id ? { ...task, done: !task.done } : task);
+
+  save(data);
+  render();
+}
+
+function editTask(id) {
+  const tagEl = document.getElementById(`tag-${id}`);
+  const titleEl = document.getElementById(`title-${id}`);
+  const areaEl = document.getElementById(`area-${id}`);
+
+  if (!tagEl || !titleEl || !areaEl) return;
+
+  const data = load();
+  const key = localDateKey(getDateObj());
+  const list = data[key] || [];
+
+  data[key] = list.map(task => {
+    if (task.id === id) {
+      return {
+        ...task,
+        tag: tagEl.value.trim() || "META",
+        title: titleEl.value.trim() || "Nova meta",
+        area: areaEl.value.trim() || "Foco / Área"
+      };
+    }
+    return task;
   });
 
   save(data);
   render();
 }
 
-function editTask(id, newTitle) {
+function deleteTask(id) {
   const data = load();
-  const d = getDate();
+  const key = localDateKey(getDateObj());
+  const list = data[key] || [];
 
-  data[d] = data[d].map(t => {
-    if (t.id === id) t.title = newTitle;
-    return t;
-  });
+  data[key] = list.filter(task => task.id !== id);
 
   save(data);
   render();
+}
+
+function openEditor(id) {
+  const panel = document.getElementById(`edit-${id}`);
+  if (panel) panel.style.display = "block";
+}
+
+function closeEditor(id) {
+  const panel = document.getElementById(`edit-${id}`);
+  if (panel) panel.style.display = "none";
 }
 
 function render() {
   const data = load();
-  const d = getDate();
-  const list = data[d] || [];
+  const dObj = getDateObj();
+  const key = localDateKey(dObj);
+  const list = data[key] || [];
 
-  document.getElementById("date").innerText = d;
+  document.getElementById("date").innerText = formatDate(dObj);
+  document.getElementById("date-sub").innerText = offset === 0 ? "hoje" : "";
 
   const tasksDiv = document.getElementById("tasks");
   tasksDiv.innerHTML = "";
 
   let done = 0;
 
+  if (list.length === 0) {
+    tasksDiv.innerHTML = `<div class="empty">Nenhuma meta criada para este dia.</div>`;
+  }
+
   list.forEach(task => {
     if (task.done) done++;
 
-    const div = document.createElement("div");
-    div.className = "card" + (task.done ? " done" : "");
-
-    div.innerHTML = `
-      <div style="display:flex; gap:10px;">
+    const card = document.createElement("div");
+    card.className = "card" + (task.done ? " done" : "");
+    card.innerHTML = `
+      <div class="row">
         <div class="check-btn ${task.done ? "done" : ""}" onclick="toggle(${task.id})">✓</div>
-        <div style="flex:1">
-          <div onclick="this.nextElementSibling.style.display='block'">
-            ${task.title}
+        <div class="content">
+          <div onclick="openEditor(${task.id})" style="cursor:pointer">
+            <div class="tag">${task.tag}</div>
+            <div class="title">${task.title}</div>
+            <div class="area">${task.area}</div>
           </div>
-          <div class="edit">
-            <input id="edit-${task.id}" value="${task.title}">
-            <button onclick="editTask(${task.id}, document.getElementById('edit-${task.id}').value)">Salvar</button>
+
+          <div class="edit" id="edit-${task.id}">
+            <input id="tag-${task.id}" value="${escapeHtml(task.tag)}" placeholder="Meta / categoria">
+            <input id="title-${task.id}" value="${escapeHtml(task.title)}" placeholder="Meta">
+            <input id="area-${task.id}" value="${escapeHtml(task.area)}" placeholder="Foco / Área">
+            <div class="actions">
+              <button class="save-btn" onclick="editTask(${task.id})">Salvar</button>
+              <button class="cancel-btn" onclick="closeEditor(${task.id})">Cancelar</button>
+              <button class="delete-btn" onclick="deleteTask(${task.id})">Excluir</button>
+            </div>
           </div>
         </div>
       </div>
     `;
 
-    tasksDiv.appendChild(div);
+    tasksDiv.appendChild(card);
   });
 
   const percent = list.length ? Math.round((done / list.length) * 100) : 0;
-
   document.getElementById("progress").style.width = percent + "%";
-  document.getElementById("progress-text").innerText = done + " / " + list.length;
+  document.getElementById("progress-text").innerText = `${done} / ${list.length}`;
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 render();
