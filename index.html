@@ -1,234 +1,234 @@
-<!DOCTYPE html >
-< html  lang =" pt-BR " >
-< cabeçalho >
-< meta  charset =" UTF-8 " >
-< title > Planner Diário </ title >
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Planner Diário</title>
 
-< estilo >
-corpo {
-  família-da-fonte : Arial , sem serifa;
-  fundo :  # 0f172a ;
-  cor :  # e2e8f0 ;
-  exibição : flexível;
-  justify-content : center;
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  display: flex;
+  justify-content: center;
 }
 
-. enrolar {
-  largura :  420 px ;
-  preenchimento :  20 px ;
+.wrap {
+  width: 420px;
+  padding: 20px;
 }
 
-. nav {
-  exibição : flexível;
-  justify-content : espaço-entre;
-  alinhar-itens : centro;
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-botão {
-  cursor : ponteiro;
+button {
+  cursor: pointer;
 }
 
-. botão-nav {
-  fundo : transparente;
-  borda :  1 px sólida # 334155 ;
-  preenchimento :  5 px  10 px ;
-  raio-da-borda :  8 px ;
-  cor :  # 94a3b8 ;
+.nav-btn {
+  background: transparent;
+  border: 1px solid #334155;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: #94a3b8;
 }
 
-. barra-de-programa {
-  altura :  6 px ;
-  fundo :  # 1e293b ;
-  raio da borda :  10 px ;
-  margem superior :  10 px ;
-  overflow : oculto;
+.prog-bar {
+  height: 6px;
+  background: #1e293b;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
 }
 
-.prog -fill {
-  altura :  100 % ;
-  largura :  0 % ;
-  fundo :  # 22c55e ;
-  transição :  0,4 s ;
+.prog-fill {
+  height: 100%;
+  width: 0%;
+  background: #22c55e;
+  transition: 0.4s;
 }
 
-. cartão {
-  fundo :  # 1e293b ;
-  preenchimento :  12 px ;
-  raio da borda :  12 px ;
-  margem superior :  10 px ;
-  borda :  1 px sólida # 334155 ;
+.card {
+  background: #1e293b;
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 10px;
+  border: 1px solid #334155;
 }
 
-. cartão . feito {
-  fundo :  gradiente-linear ( 135 graus ,  # 052e16 ,  # 14532d );
-  cor da borda :  # 22c55e ;
+.card.done {
+  background: linear-gradient(135deg, #052e16, #14532d);
+  border-color: #22c55e;
 }
 
-. botão-de-verificação {
-  largura :  24 px ;
-  altura :  24 px ;
-  raio-da-borda :  50 % ;
-  borda :  2 px sólida # 64748b ;
-  exibição : inline-flex;
-  alinhar-itens : centro;
-  justify-content : center;
+.check-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-. botão-de-verificação . concluído {
-  fundo :  # 22c55e ;
-  cor da borda :  # 22c55e ;
+.check-btn.done {
+  background: #22c55e;
+  border-color: #22c55e;
 }
 
-. editar {
-  exibir : nenhum;
-  margem superior :  8 px ;
+.edit {
+  display: none;
+  margin-top: 8px;
 }
 
-. editar  entrada {
-  largura :  100 % ;
-  margem-inferior :  5 px ;
+.edit input {
+  width: 100%;
+  margin-bottom: 5px;
 }
 
-. botão-adicionar {
-  margem superior :  10 px ;
-  largura :  100 % ;
-  preenchimento :  8 px ;
-  fundo :  # 22c55e ;
-  borda : nenhuma;
-  raio da borda :  10 px ;
-  Cor : preto;
+.add-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  color: black;
 }
 
-</ estilo >
-</head>​​
+</style>
+</head>
 
-< corpo >
+<body>
 
-< div  class =" wrap " >
+<div class="wrap">
 
-< div  class =" nav " >
-  < button  class =" nav - btn " onclick =" changeDay(-1) " > ← </button>
-  < div  id = " date " > </div>​
-  < button  class =" nav - btn " onclick =" changeDay(1) " > → </button>
-</div>​​
+<div class="nav">
+  <button class="nav-btn" onclick="changeDay(-1)">←</button>
+  <div id="date"></div>
+  <button class="nav-btn" onclick="changeDay(1)">→</button>
+</div>
 
-< div  id =" progress - text " > </div>
-< div  class =" prog - bar " > < div  class =" prog -fill " id = " progress " > </div> </div>
+<div id="progress-text"></div>
+<div class="prog-bar"><div class="prog-fill" id="progress"></div></div>
 
-< div  id = " tasks " > </div>​
+<div id="tasks"></div>
 
-< button  class =" add - btn " onclick =" addTask() " > + Nova meta </button>
+<button class="add-btn" onclick="addTask()">+ Nova meta</button>
 
-</div>​​
+</div>
 
-< script >
-seja  offset  =  0 ;
+<script>
+let offset = 0;
 
-função  obterData ( )  {
-  const  d  =  new  Date ( ) ;
-  d.setDate ( d.getDate ( ) + offset ) ;​​​​  
-  retornar  d.toISOString ( ) . split ( " T " ) [ 0 ] ;
+function getDate() {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return d.toISOString().split("T")[0];
 }
 
-função  carregar ( )  {
-  retornar  JSON.parse ( localStorage.getItem ( " planner" ) || " { } " ) ;  
+function load() {
+  return JSON.parse(localStorage.getItem("planner") || "{}");
 }
 
-função  salvar ( dados )  {
-  localStorage.setItem ( " planner " , JSON.stringify ( data ) ) ;​​ 
+function save(data) {
+  localStorage.setItem("planner", JSON.stringify(data));
 }
 
-função  changeDay ( n )  {
-  deslocamento  +=  n ;
-  render ( ) ;
+function changeDay(n) {
+  offset += n;
+  render();
 }
 
-função  adicionarTarefa ( )  {
-  const  data  =  carregar ( ) ;
-  const  d  =  getDate ( ) ;
+function addTask() {
+  const data = load();
+  const d = getDate();
 
-  se  ( ! dados [ d ] )  dados [ d ]  =  [ ] ;
+  if (!data[d]) data[d] = [];
 
-  dados [ d ] . push ( {
-    id : Data.agora ( ) ,​​
-    título : "Nova meta" ,
-    feito : falso
-  } ) ;
+  data[d].push({
+    id: Date.now(),
+    title: "Nova meta",
+    done: false
+  });
 
-  salvar ( dados ) ;
-  render ( ) ;
+  save(data);
+  render();
 }
 
-função  alternar ( id )  {
-  const  data  =  carregar ( ) ;
-  const  d  =  getDate ( ) ;
+function toggle(id) {
+  const data = load();
+  const d = getDate();
 
-  dados [ d ]  =  dados [ d ] . map ( t  =>  {
-    se  ( t.id === id ) t.done = ! t.done ;​​ ​​​​    
-    retornar  t ;
-  } ) ;
+  data[d] = data[d].map(t => {
+    if (t.id === id) t.done = !t.done;
+    return t;
+  });
 
-  salvar ( dados ) ;
-  render ( ) ;
+  save(data);
+  render();
 }
 
-função  editarTarefa ( id ,  novoTítulo )  {
-  const  data  =  carregar ( ) ;
-  const  d  =  getDate ( ) ;
+function editTask(id, newTitle) {
+  const data = load();
+  const d = getDate();
 
-  dados [ d ]  =  dados [ d ] . map ( t  =>  {
-    if  ( t . id  ===  id )  t . title  =  newTitle ;
-    retornar  t ;
-  } ) ;
+  data[d] = data[d].map(t => {
+    if (t.id === id) t.title = newTitle;
+    return t;
+  });
 
-  salvar ( dados ) ;
-  render ( ) ;
+  save(data);
+  render();
 }
 
-função  renderizar ( )  {
-  const  data  =  carregar ( ) ;
-  const  d  =  getDate ( ) ;
-  const  lista  =  dados [ d ]  ||  [ ] ;
+function render() {
+  const data = load();
+  const d = getDate();
+  const list = data[d] || [];
 
-  documento . getElementById ( "data" ) . Texto interno  =  d ;
+  document.getElementById("date").innerText = d;
 
-  const  tasksDiv  =  document.getElementById ( " tasks " ) ;
-  tasksDiv.innerHTML = " " ;​  
+  const tasksDiv = document.getElementById("tasks");
+  tasksDiv.innerHTML = "";
 
-  seja  feito  =  0 ;
+  let done = 0;
 
-  lista.forEach ( tarefa = > {​  
-    se  ( tarefa . concluída )  concluída ++ ;
+  list.forEach(task => {
+    if (task.done) done++;
 
-    const  div  =  document.createElement ( " div " ) ;
-    div.className = " card" + ( task.done ? " done " : " " ) ;    
+    const div = document.createElement("div");
+    div.className = "card" + (task.done ? " done" : "");
 
-    div.innerHTML = `​​  
+    div.innerHTML = `
       <div style="display:flex; gap:10px;">
-        <div class="check-btn ${ task . done ? "done" : "" } " onclick="toggle( ${ task . id } )">✓</div>
+        <div class="check-btn ${task.done ? "done" : ""}" onclick="toggle(${task.id})">✓</div>
         <div style="flex:1">
           <div onclick="this.nextElementSibling.style.display='block'">
-            ${ tarefa . título }
+            ${task.title}
           </div>
           <div class="edit">
-            <input id="edit- ${ task . id } " value=" ${ task . title } ">
-            <button onclick="editTask( ${ task . id } , document.getElementById('edit- ${ task . id } ').value)">Salvar</button>
+            <input id="edit-${task.id}" value="${task.title}">
+            <button onclick="editTask(${task.id}, document.getElementById('edit-${task.id}').value)">Salvar</button>
           </div>
         </div>
       </div>
-    ` ;
+    `;
 
-    tasksDiv.appendChild ( div ) ;​​
-  } ) ;
+    tasksDiv.appendChild(div);
+  });
 
-  const  percent  =  list.length ? Math.round ( ( done / list.length ) * 100 ) : 0 ;​​​​​​    
+  const percent = list.length ? Math.round((done / list.length) * 100) : 0;
 
-  document.getElementById ( " progress " ) . style.width = percent + " % " ;    
-  document.getElementById ( " progress-text " ) . innerText = done + " / " + list.length ;      
+  document.getElementById("progress").style.width = percent + "%";
+  document.getElementById("progress-text").innerText = done + " / " + list.length;
 }
 
-render ( ) ;
-</script>​​
+render();
+</script>
 
-</body>​​
-</ html >
+</body>
+</html>
