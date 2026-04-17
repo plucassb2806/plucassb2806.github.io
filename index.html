@@ -1,0 +1,234 @@
+<!DOCTYPE html >
+< html  lang =" pt-BR " >
+< cabeçalho >
+< meta  charset =" UTF-8 " >
+< title > Planner Diário </ title >
+
+< estilo >
+corpo {
+  família-da-fonte : Arial , sem serifa;
+  fundo :  # 0f172a ;
+  cor :  # e2e8f0 ;
+  exibição : flexível;
+  justify-content : center;
+}
+
+. enrolar {
+  largura :  420 px ;
+  preenchimento :  20 px ;
+}
+
+. nav {
+  exibição : flexível;
+  justify-content : espaço-entre;
+  alinhar-itens : centro;
+}
+
+botão {
+  cursor : ponteiro;
+}
+
+. botão-nav {
+  fundo : transparente;
+  borda :  1 px sólida # 334155 ;
+  preenchimento :  5 px  10 px ;
+  raio-da-borda :  8 px ;
+  cor :  # 94a3b8 ;
+}
+
+. barra-de-programa {
+  altura :  6 px ;
+  fundo :  # 1e293b ;
+  raio da borda :  10 px ;
+  margem superior :  10 px ;
+  overflow : oculto;
+}
+
+.prog -fill {
+  altura :  100 % ;
+  largura :  0 % ;
+  fundo :  # 22c55e ;
+  transição :  0,4 s ;
+}
+
+. cartão {
+  fundo :  # 1e293b ;
+  preenchimento :  12 px ;
+  raio da borda :  12 px ;
+  margem superior :  10 px ;
+  borda :  1 px sólida # 334155 ;
+}
+
+. cartão . feito {
+  fundo :  gradiente-linear ( 135 graus ,  # 052e16 ,  # 14532d );
+  cor da borda :  # 22c55e ;
+}
+
+. botão-de-verificação {
+  largura :  24 px ;
+  altura :  24 px ;
+  raio-da-borda :  50 % ;
+  borda :  2 px sólida # 64748b ;
+  exibição : inline-flex;
+  alinhar-itens : centro;
+  justify-content : center;
+}
+
+. botão-de-verificação . concluído {
+  fundo :  # 22c55e ;
+  cor da borda :  # 22c55e ;
+}
+
+. editar {
+  exibir : nenhum;
+  margem superior :  8 px ;
+}
+
+. editar  entrada {
+  largura :  100 % ;
+  margem-inferior :  5 px ;
+}
+
+. botão-adicionar {
+  margem superior :  10 px ;
+  largura :  100 % ;
+  preenchimento :  8 px ;
+  fundo :  # 22c55e ;
+  borda : nenhuma;
+  raio da borda :  10 px ;
+  Cor : preto;
+}
+
+</ estilo >
+</head>​​
+
+< corpo >
+
+< div  class =" wrap " >
+
+< div  class =" nav " >
+  < button  class =" nav - btn " onclick =" changeDay(-1) " > ← </button>
+  < div  id = " date " > </div>​
+  < button  class =" nav - btn " onclick =" changeDay(1) " > → </button>
+</div>​​
+
+< div  id =" progress - text " > </div>
+< div  class =" prog - bar " > < div  class =" prog -fill " id = " progress " > </div> </div>
+
+< div  id = " tasks " > </div>​
+
+< button  class =" add - btn " onclick =" addTask() " > + Nova meta </button>
+
+</div>​​
+
+< script >
+seja  offset  =  0 ;
+
+função  obterData ( )  {
+  const  d  =  new  Date ( ) ;
+  d.setDate ( d.getDate ( ) + offset ) ;​​​​  
+  retornar  d.toISOString ( ) . split ( " T " ) [ 0 ] ;
+}
+
+função  carregar ( )  {
+  retornar  JSON.parse ( localStorage.getItem ( " planner" ) || " { } " ) ;  
+}
+
+função  salvar ( dados )  {
+  localStorage.setItem ( " planner " , JSON.stringify ( data ) ) ;​​ 
+}
+
+função  changeDay ( n )  {
+  deslocamento  +=  n ;
+  render ( ) ;
+}
+
+função  adicionarTarefa ( )  {
+  const  data  =  carregar ( ) ;
+  const  d  =  getDate ( ) ;
+
+  se  ( ! dados [ d ] )  dados [ d ]  =  [ ] ;
+
+  dados [ d ] . push ( {
+    id : Data.agora ( ) ,​​
+    título : "Nova meta" ,
+    feito : falso
+  } ) ;
+
+  salvar ( dados ) ;
+  render ( ) ;
+}
+
+função  alternar ( id )  {
+  const  data  =  carregar ( ) ;
+  const  d  =  getDate ( ) ;
+
+  dados [ d ]  =  dados [ d ] . map ( t  =>  {
+    se  ( t.id === id ) t.done = ! t.done ;​​ ​​​​    
+    retornar  t ;
+  } ) ;
+
+  salvar ( dados ) ;
+  render ( ) ;
+}
+
+função  editarTarefa ( id ,  novoTítulo )  {
+  const  data  =  carregar ( ) ;
+  const  d  =  getDate ( ) ;
+
+  dados [ d ]  =  dados [ d ] . map ( t  =>  {
+    if  ( t . id  ===  id )  t . title  =  newTitle ;
+    retornar  t ;
+  } ) ;
+
+  salvar ( dados ) ;
+  render ( ) ;
+}
+
+função  renderizar ( )  {
+  const  data  =  carregar ( ) ;
+  const  d  =  getDate ( ) ;
+  const  lista  =  dados [ d ]  ||  [ ] ;
+
+  documento . getElementById ( "data" ) . Texto interno  =  d ;
+
+  const  tasksDiv  =  document.getElementById ( " tasks " ) ;
+  tasksDiv.innerHTML = " " ;​  
+
+  seja  feito  =  0 ;
+
+  lista.forEach ( tarefa = > {​  
+    se  ( tarefa . concluída )  concluída ++ ;
+
+    const  div  =  document.createElement ( " div " ) ;
+    div.className = " card" + ( task.done ? " done " : " " ) ;    
+
+    div.innerHTML = `​​  
+      <div style="display:flex; gap:10px;">
+        <div class="check-btn ${ task . done ? "done" : "" } " onclick="toggle( ${ task . id } )">✓</div>
+        <div style="flex:1">
+          <div onclick="this.nextElementSibling.style.display='block'">
+            ${ tarefa . título }
+          </div>
+          <div class="edit">
+            <input id="edit- ${ task . id } " value=" ${ task . title } ">
+            <button onclick="editTask( ${ task . id } , document.getElementById('edit- ${ task . id } ').value)">Salvar</button>
+          </div>
+        </div>
+      </div>
+    ` ;
+
+    tasksDiv.appendChild ( div ) ;​​
+  } ) ;
+
+  const  percent  =  list.length ? Math.round ( ( done / list.length ) * 100 ) : 0 ;​​​​​​    
+
+  document.getElementById ( " progress " ) . style.width = percent + " % " ;    
+  document.getElementById ( " progress-text " ) . innerText = done + " / " + list.length ;      
+}
+
+render ( ) ;
+</script>​​
+
+</body>​​
+</ html >
